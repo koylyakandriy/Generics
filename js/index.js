@@ -1,0 +1,94 @@
+if (document.readyState == 'loading') {
+  document.addEventListener('DOMContentLoaded', ready);
+} else {
+  ready();
+}
+
+function ready() {
+  var removeCartBtn = document.getElementsByClassName('btn-danger');
+  console.log(removeCartBtn)
+  for (i = 0; i < removeCartBtn.length; i++) {
+    var btn = removeCartBtn[i];
+    btn.addEventListener('click', removeCartItem)
+  }
+
+  var quaInputs = document.getElementsByClassName('cart-qua-input')
+  for (i = 0; i < quaInputs.length; i++) {
+    var input = quaInputs[i];
+    input.addEventListener('change', quaChanged)
+  }
+
+  var addToCartBtn = document.getElementsByClassName('shop-item-btn');
+  for (i = 0; i < addToCartBtn.length; i++) {
+    var btn = addToCartBtn[i];
+    btn.addEventListener('click', addToCartClicked);
+  }
+
+}
+
+function removeCartItem(event) {
+  var btnClicked = event.target;
+  btnClicked.parentElement.parentElement.remove();
+  updateCartTotal();
+}
+
+function addToCartClicked(event) {
+  var btn = event.target;
+  var shopItem = btn.parentElement.parentElement;
+  var title = shopItem.getElementsByClassName('shop-item-title')[0].innerText;
+  var price = shopItem.getElementsByClassName('shop-item-price')[0].innerText;
+  var imgSrc = shopItem.getElementsByClassName('shop-item-img')[0].src;
+  addItemToCart(title, price, imgSrc);
+  updateCartTotal();
+}
+
+function addItemToCart(title, price, imgSrc) {
+  var cartRow = document.createElement('div');
+  cartRow.classList.add('cart-row')
+  var cartItems = document.getElementsByClassName('cart-items')[0];
+  var cartItemName = cartItems.getElementsByClassName('cart-item-title');
+  for (var i = 0; i < cartItemName.length; i++) {
+    if(cartItemName[i].innerText == title) {
+      alert('This item is already added to the cart');
+      return;
+    }
+  }
+  var cartRowContents = `
+    <div class="cart-item cart-column">
+      <img class="cart-item-img" src="${imgSrc}" width="100" height="100">
+      <span class="cart-item-title">${title}</span>
+    </div>
+    <span class="cart-price cart-column">${price}</span>
+    <div class="cart-qua cart-column">
+      <input class="cart-qua-input" type="number" value="2">
+      <button class="btn btn-danger" type="button">Remove</button>
+    </div>`;
+    cartRow.innerHTML = cartRowContents;
+  cartItems.append(cartRow);
+  cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeCartItem);
+  cartRow.getElementsByClassName('cart-qua-input')[0].addEventListener('change', quaChanged);
+}
+
+function quaChanged(event) {
+  var input = event.target;
+  if (isNaN(input.value) || input.value <= 0) {
+    input.value = 1;
+  }
+  updateCartTotal();
+}
+
+function updateCartTotal() {
+  var cartItemContainer = document.getElementsByClassName('cart-items')[0];
+  var cartRows = cartItemContainer.getElementsByClassName('cart-row');
+  var total = 0;
+  for (i = 0; i < cartRows.length; i++) {
+    var cartRow = cartRows[i];
+    var priceElement = cartRow.getElementsByClassName('cart-price')[0];
+    var quaElement = cartRow.getElementsByClassName('cart-qua-input')[0];
+    var price = parseFloat(priceElement.innerText.replace('$', ''));
+    var qua = quaElement.value;
+    total = total + (price * qua);
+  }
+  total = Math.round(total * 100) / 100;
+  document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total;
+}
