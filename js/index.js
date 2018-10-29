@@ -6,16 +6,16 @@ if (document.readyState == 'loading') {
 
 function ready() {
   var removeCartBtn = document.getElementsByClassName('btn-danger');
-  console.log(removeCartBtn)
+  console.log(removeCartBtn);
   for (i = 0; i < removeCartBtn.length; i++) {
     var btn = removeCartBtn[i];
-    btn.addEventListener('click', removeCartItem)
+    btn.addEventListener('click', removeCartItem);
   }
 
-  var quaInputs = document.getElementsByClassName('cart-qua-input')
+  var quaInputs = document.getElementsByClassName('cart-qua-input');
   for (i = 0; i < quaInputs.length; i++) {
     var input = quaInputs[i];
-    input.addEventListener('change', quaChanged)
+    input.addEventListener('change', quaChanged);
   }
 
   var addToCartBtn = document.getElementsByClassName('shop-item-btn');
@@ -62,7 +62,7 @@ function addToCartClicked(event) {
 
 function addItemToCart(title, price, imgSrc) {
   var cartRow = document.createElement('div');
-  cartRow.classList.add('cart-row')
+  cartRow.classList.add('cart-row');
   var cartItems = document.getElementsByClassName('cart-items')[0];
   var cartItemName = cartItems.getElementsByClassName('cart-item-title');
   for (var i = 0; i < cartItemName.length; i++) {
