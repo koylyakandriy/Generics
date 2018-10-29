@@ -23,6 +23,7 @@ html, body {
 }
 
 .nav ul {
+  padding: 0;
   margin: 0;
   text-transform: uppercase;
 }
@@ -340,4 +341,40 @@ html, body {
   display: block;
   margin: 40px auto 80px auto;
   font-size: 1.75em;
+}
+
+
+            /* @max-width 375px */
+@media screen and (max-width:425px) {
+  .nav ul{
+    padding: 0;
+  }
+  .section-header{
+
+  }
+  .shop-item {
+    margin: 10px;
+  }
+  .section-header{
+    margin: 15px;
+  }
+  .cart-column{
+    display: grid;
+  }
+  .cart-item, .cart-qua{
+    text-align: center;
+  }
+  .cart-item-img, .cart-qua-input{
+    width: 100%;
+  }
+  .cart-item-title{
+    margin: 0 auto;
+  }
+  .cart-qua{
+    margin-right: .8em;
+  }
+  .tour-item{
+    vertical-align: middle;
+    text-align: center;
+  }
 }

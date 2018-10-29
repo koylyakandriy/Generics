@@ -24,11 +24,29 @@ function ready() {
     btn.addEventListener('click', addToCartClicked);
   }
 
+  document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked);
+}
+
+function purchaseClicked() {
+  alert('Thank you for your purchase');
+  var cartItems = document.getElementsByClassName('cart-items')[0];
+  while (cartItems.hasChildNodes()) {
+    cartItems.removeChild(cartItems.firstChild);
+  }
+  updateCartTotal();
 }
 
 function removeCartItem(event) {
   var btnClicked = event.target;
   btnClicked.parentElement.parentElement.remove();
+  updateCartTotal();
+}
+
+function quaChanged(event) {
+  var input = event.target;
+  if (isNaN(input.value) || input.value <= 0) {
+    input.value = 1;
+  }
   updateCartTotal();
 }
 
@@ -60,21 +78,13 @@ function addItemToCart(title, price, imgSrc) {
     </div>
     <span class="cart-price cart-column">${price}</span>
     <div class="cart-qua cart-column">
-      <input class="cart-qua-input" type="number" value="2">
+      <input class="cart-qua-input" type="number" value="1">
       <button class="btn btn-danger" type="button">Remove</button>
     </div>`;
     cartRow.innerHTML = cartRowContents;
   cartItems.append(cartRow);
   cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeCartItem);
   cartRow.getElementsByClassName('cart-qua-input')[0].addEventListener('change', quaChanged);
-}
-
-function quaChanged(event) {
-  var input = event.target;
-  if (isNaN(input.value) || input.value <= 0) {
-    input.value = 1;
-  }
-  updateCartTotal();
 }
 
 function updateCartTotal() {
